@@ -44,14 +44,16 @@ void addMedia(vector<Media*>* &vPtr) {
   char type[10];
   cout << "What type of media would you like to add? (MOVIE, MUSIC, VIDEOGAME)" << endl;
   cin >> type;
-  cin.ignore(1000, '\n');
+  cin.ignore();
+
   char title[80];
   int year;
-  char director[80];
-  char duration[80];
-  int rating = 0;
-  
+
   if (strcmp(type, "MOVIE") == 0) {
+
+    char director[80];
+    char duration[80];
+    int rating = 0;
     
     cout << "Title: ";
     cin.get(title, 80);
@@ -83,9 +85,70 @@ void addMedia(vector<Media*>* &vPtr) {
     cout << "Movie added." << endl;
     
   } else if (strcmp(type, "MUSIC") == 0) {
-    //pass
+
+    char artist[80];
+    char duration[80];
+    char publisher[80];
+    
+    cout << "Title: ";
+    cin.get(title, 80);
+    cin.get();
+    
+    cout << "Year: ";
+    cin >> year;
+    cin.ignore();
+  
+    cout << "Artist: ";
+    cin.get(artist, 80);
+    cin.get();
+
+    cout << "Duration: ";
+    cin.get(duration, 80);
+    cin.get();
+
+    cout << "Publisher: ";
+    cin.get(publisher, 80);
+    cin.get();
+
+    Music* newMusic = new Music();
+    newMusic->setType(MUSIC);
+    newMusic->setTitle(title);
+    newMusic->setYear(year);
+    newMusic->setArtist(artist);
+    newMusic->setDuration(duration);
+    newMusic->setPublisher(publisher);
+    vPtr->push_back(newMusic);
+    cout << "Music added." << endl;
+    
   } else if (strcmp(type, "VIDEOGAME") == 0) {
-    //pass
+
+    char publisher[80];
+    int rating;
+    
+    cout << "Title: ";
+    cin.get(title, 80);
+    cin.get();
+    
+    cout << "Year: ";
+    cin >> year;
+    cin.ignore();
+  
+    cout << "Publisher: ";
+    cin.get(publisher, 80);
+    cin.get();
+
+    cout << "Rating: ";
+    cin >> rating;
+
+    Videogame* newVideogame = new Videogame();
+    newVideogame->setType(VIDEOGAME);
+    newVideogame->setTitle(title);
+    newVideogame->setYear(year);
+    newVideogame->setPublisher(publisher);
+    newVideogame->setRating(rating);
+    vPtr->push_back(newVideogame);
+    cout << "Videogame added." << endl;
+    
   } else { //TODO: add a back function?
     cout << "Invalid media type." << endl;
   }
@@ -97,39 +160,53 @@ void searchMedia(vector<Media*>* vPtr) {
   cout << "Search by TITLE or YEAR? " << endl;
   cin >> input;
   cin.ignore();
-
+  char title[80];
+  int year;
+  
   if (strcmp(input, "TITLE") == 0) {
-    char title[80];
     cout << "Title: ";
     cin.get(title, 80);
-
-    for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
-      if (strcmp((*it)->getTitle(), title) == 0) {
-	cout << "Match found" << endl;
-	if ((*it)->getType() == MOVIE) {
-	  cout << "Media Type: Movie" << endl; 
-	  cout << "Title: " << (*it)->getTitle() << endl; 
-	  cout << "Year: " << (*it)->getYear() << endl; 
-	  cout << "Director: " << (dynamic_cast<Movie*>(*it))->getDirector() << endl; 
-	  cout << "Duration: " << (dynamic_cast<Movie*>(*it))->getDuration() << endl; 
-	  cout << "Rating: " << (dynamic_cast<Movie*>(*it))->getRating() << endl;
-	}
-      }
-    }
-    if (vPtr->size() == 0) {
-      cout << "[No media]" << endl;
-    }
-    
   } else if (strcmp(input, "YEAR") == 0) {
-    int year;
-    cout << "Year: " << endl;
+    cout << "Year: ";
     cin >> year;
-    
   } else {
     cout << "Invalid input." << endl;
   }
 
+  bool mediaFound = false;
+  for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
 
+    if ((strcmp((*it)->getTitle(), title) == 0 && strcmp(input, "TITLE") == 0) ||
+	((*it)->getYear() == year && strcmp(input, "YEAR") == 0)) {
+
+      mediaFound = true;
+      cout << endl;
+      if ((*it)->getType() == MOVIE) {
+	cout << "Media Type: Movie" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Director: " << (dynamic_cast<Movie*>(*it))->getDirector() << endl; 
+	cout << "Duration: " << (dynamic_cast<Movie*>(*it))->getDuration() << endl; 
+	cout << "Rating: " << (dynamic_cast<Movie*>(*it))->getRating() << endl;
+      } else if ((*it)->getType() == MUSIC) {
+	cout << "Media Type: Music" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Artist: " << (dynamic_cast<Music*>(*it))->getArtist() << endl; 
+	cout << "Duration: " << (dynamic_cast<Music*>(*it))->getDuration() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Music*>(*it))->getPublisher() << endl;
+      } else if ((*it)->getType() == VIDEOGAME) {
+	cout << "Media Type: Videogame" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Videogame*>(*it))->getPublisher() << endl; 
+	cout << "Rating: " << (dynamic_cast<Videogame*>(*it))->getRating() << endl;
+      }
+    }
+  }
+  if (!mediaFound) {
+    cout << "No media found." << endl;
+  }
 }
 
 void deleteMedia(vector<Media*>* &vPtr) {
