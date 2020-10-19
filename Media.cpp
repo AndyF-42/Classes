@@ -1,3 +1,5 @@
+//getters and setters for Media class
+
 #include "Media.h"
 #include <cstring>
 #define MOVIE 1

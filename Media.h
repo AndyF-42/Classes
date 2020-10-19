@@ -1,3 +1,5 @@
+//header for Media parent class
+
 #pragma once
 
 class Media {
@@ -14,6 +16,6 @@ public:
   void setTitle(char* title);
 
   Media();
-  virtual ~Media() {};
+  virtual ~Media() {}; //virtual to make it polymorphic
   
 };

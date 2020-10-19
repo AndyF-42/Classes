@@ -1,3 +1,5 @@
+//header for Music class
+
 #include "Media.h"
 
 class Music : public Media {

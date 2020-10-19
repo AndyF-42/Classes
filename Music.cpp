@@ -1,3 +1,5 @@
+//getters and setters for Music class
+
 #include "Music.h"
 #include <cstring>
 

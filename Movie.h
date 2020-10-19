@@ -1,17 +1,19 @@
+//header for Movie class
+
 #include "Media.h"
 
 class Movie : public Media {
 public:
   char director[80];
   char duration[80];
-  int rating;
+  char rating[10];
 
   char* getDirector();
   char* getDuration();
-  int getRating();
+  char* getRating();
   void setDirector(char* newDirector);
   void setDuration(char* newDuration);
-  void setRating(int newRating);
+  void setRating(char* newRating);
 
   Movie();
   //~Movie();

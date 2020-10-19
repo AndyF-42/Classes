@@ -1,14 +1,16 @@
+//header for Videogame class
+
 #include "Media.h"
 
 class Videogame : public Media {
 public:
   char publisher[100];
-  int rating;
+  char rating[10];
 
   char* getPublisher();
-  int getRating();
+  char* getRating();
   void setPublisher(char* publisher);
-  void setRating(int rating);
+  void setRating(char* rating);
 
   Videogame();
 

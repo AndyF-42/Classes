@@ -1,3 +1,5 @@
+//getters and setters for Movie class
+
 #include "Movie.h"
 #include <cstring>
 
@@ -10,7 +12,7 @@ char* Movie::getDirector() {
 char* Movie::getDuration() {
   return duration;
 }
-int Movie::getRating() {
+char* Movie::getRating() {
   return rating;
 }
 
@@ -20,6 +22,6 @@ void Movie::setDirector(char* newDirector) {
 void Movie::setDuration(char* newDuration) {
   strcpy(duration, newDuration);
 }
-void Movie::setRating(int newRating) {
-  rating = newRating;
+void Movie::setRating(char* newRating) {
+  strcpy(rating, newRating);
 }
