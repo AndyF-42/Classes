@@ -14,15 +14,16 @@ void addMedia(vector<Media*>* &vPtr);
 void searchMedia(vector<Media*>* vPtr);
 void deleteMedia(vector<Media*>* &vPtr);
 
+//main function, everything starts here
 int main() {
   
   cout << "Welcome to Classes, a database of media." << endl;
   cout << "You can use the commands ADD, SEARCH, DELETE, and QUIT." << endl;
 
-  vector<Media*>* vPtr = new vector<Media*>;
+  vector<Media*>* vPtr = new vector<Media*>; //vector pointer of parent Media pointers
   
   char input[10];
-  while (strcmp(input, "QUIT") != 0) {
+  while (strcmp(input, "QUIT") != 0) { //get input, leave loop on QUIT command
     cout << ">> ";
     cin >> input;
     
@@ -40,6 +41,7 @@ int main() {
   return 0;
 }
 
+//add media entry to vector
 void addMedia(vector<Media*>* &vPtr) {
   char type[10];
   cout << "What type of media would you like to add? (MOVIE, MUSIC, VIDEOGAME)" << endl;
@@ -49,7 +51,7 @@ void addMedia(vector<Media*>* &vPtr) {
   char title[80];
   int year;
 
-  if (strcmp(type, "MOVIE") == 0) {
+  if (strcmp(type, "MOVIE") == 0) { //adding a movie
 
     char director[80];
     char duration[80];
@@ -74,6 +76,7 @@ void addMedia(vector<Media*>* &vPtr) {
     cout << "Rating: ";
     cin >> rating;
 
+    //setting up the variables into a Movie class to add to vector
     Movie* newMovie = new Movie();
     newMovie->setType(MOVIE);
     newMovie->setTitle(title);
@@ -84,7 +87,7 @@ void addMedia(vector<Media*>* &vPtr) {
     vPtr->push_back(newMovie);
     cout << "Movie added." << endl;
     
-  } else if (strcmp(type, "MUSIC") == 0) {
+  } else if (strcmp(type, "MUSIC") == 0) { //adding music
 
     char artist[80];
     char duration[80];
@@ -110,6 +113,7 @@ void addMedia(vector<Media*>* &vPtr) {
     cin.get(publisher, 80);
     cin.get();
 
+    //setting up the variables into a Music class to add to vector
     Music* newMusic = new Music();
     newMusic->setType(MUSIC);
     newMusic->setTitle(title);
@@ -120,7 +124,7 @@ void addMedia(vector<Media*>* &vPtr) {
     vPtr->push_back(newMusic);
     cout << "Music added." << endl;
     
-  } else if (strcmp(type, "VIDEOGAME") == 0) {
+  } else if (strcmp(type, "VIDEOGAME") == 0) { //adding Videogame
 
     char publisher[80];
     int rating;
@@ -140,6 +144,7 @@ void addMedia(vector<Media*>* &vPtr) {
     cout << "Rating: ";
     cin >> rating;
 
+    //setting up the variables into a Videogame class to add to vector
     Videogame* newVideogame = new Videogame();
     newVideogame->setType(VIDEOGAME);
     newVideogame->setTitle(title);
@@ -149,13 +154,15 @@ void addMedia(vector<Media*>* &vPtr) {
     vPtr->push_back(newVideogame);
     cout << "Videogame added." << endl;
     
-  } else { //TODO: add a back function?
+  } else {
     cout << "Invalid media type." << endl;
   }
 
 }
 
+//search the vector for a specific media (given title or year)
 void searchMedia(vector<Media*>* vPtr) {
+  //get whether searching by title or year
   char input[10];
   cout << "Search by TITLE or YEAR? " << endl;
   cin >> input;
@@ -173,29 +180,32 @@ void searchMedia(vector<Media*>* vPtr) {
     cout << "Invalid input." << endl;
   }
 
+  //iterator for vector, with bool to track if we actually find something
   bool mediaFound = false;
   for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
 
+    //will enter the if statement if the titles match and they are searching
+    //by title, or if the years match and they are searching by year
     if ((strcmp((*it)->getTitle(), title) == 0 && strcmp(input, "TITLE") == 0) ||
 	((*it)->getYear() == year && strcmp(input, "YEAR") == 0)) {
 
       mediaFound = true;
       cout << endl;
-      if ((*it)->getType() == MOVIE) {
+      if ((*it)->getType() == MOVIE) { //matching movie found
 	cout << "Media Type: Movie" << endl; 
 	cout << "Title: " << (*it)->getTitle() << endl; 
 	cout << "Year: " << (*it)->getYear() << endl; 
 	cout << "Director: " << (dynamic_cast<Movie*>(*it))->getDirector() << endl; 
 	cout << "Duration: " << (dynamic_cast<Movie*>(*it))->getDuration() << endl; 
 	cout << "Rating: " << (dynamic_cast<Movie*>(*it))->getRating() << endl;
-      } else if ((*it)->getType() == MUSIC) {
+      } else if ((*it)->getType() == MUSIC) { //matching music found
 	cout << "Media Type: Music" << endl; 
 	cout << "Title: " << (*it)->getTitle() << endl; 
 	cout << "Year: " << (*it)->getYear() << endl; 
 	cout << "Artist: " << (dynamic_cast<Music*>(*it))->getArtist() << endl; 
 	cout << "Duration: " << (dynamic_cast<Music*>(*it))->getDuration() << endl; 
 	cout << "Publisher: " << (dynamic_cast<Music*>(*it))->getPublisher() << endl;
-      } else if ((*it)->getType() == VIDEOGAME) {
+      } else if ((*it)->getType() == VIDEOGAME) { //matching videogame found
 	cout << "Media Type: Videogame" << endl; 
 	cout << "Title: " << (*it)->getTitle() << endl; 
 	cout << "Year: " << (*it)->getYear() << endl; 
@@ -204,12 +214,14 @@ void searchMedia(vector<Media*>* vPtr) {
       }
     }
   }
-  if (!mediaFound) {
+  if (!mediaFound) { //never found a matching media (or no media exists)
     cout << "Could not find media." << endl;
   }
 }
 
+//deletes a media element from the vector
 void deleteMedia(vector<Media*>* &vPtr) {
+  //get whether searching by title or year
   char input[10];
   cout << "Delete by TITLE or YEAR? " << endl;
   cin >> input;
@@ -227,9 +239,71 @@ void deleteMedia(vector<Media*>* &vPtr) {
     cout << "Invalid input." << endl;
   }
 
+  //iterator for vector, with bool to track if we actually find something
   bool mediaFound = false;
   for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
 
+    //will enter the if statement if the titles match and they are searching
+    //by title, or if the years match and they are searching by year
+    if ((strcmp((*it)->getTitle(), title) == 0 && strcmp(input, "TITLE") == 0) ||
+	((*it)->getYear() == year && strcmp(input, "YEAR") == 0)) {
+
+      mediaFound = true;
+      cout << endl;
+      if ((*it)->getType() == MOVIE) { //matching movie found
+	cout << "Media Type: Movie" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Director: " << (dynamic_cast<Movie*>(*it))->getDirector() << endl; 
+	cout << "Duration: " << (dynamic_cast<Movie*>(*it))->getDuration() << endl; 
+	cout << "Rating: " << (dynamic_cast<Movie*>(*it))->getRating() << endl;
+      } else if ((*it)->getType() == MUSIC) { //matching music found
+	cout << "Media Type: Music" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Artist: " << (dynamic_cast<Music*>(*it))->getArtist() << endl; 
+	cout << "Duration: " << (dynamic_cast<Music*>(*it))->getDuration() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Music*>(*it))->getPublisher() << endl;
+      } else if ((*it)->getType() == VIDEOGAME) { //matching videogame found
+	cout << "Media Type: Videogame" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Videogame*>(*it))->getPublisher() << endl; 
+	cout << "Rating: " << (dynamic_cast<Videogame*>(*it))->getRating() << endl;
+      }
+    }
+  }
+  if (!mediaFound) { //never found a matching media (or no media exists)
+    cout << "Could not find media." << endl;
+  }
+}
+
+//deletes a media element from the vector
+void deleteMedia(vector<Media*>* &vPtr) {
+  //get whether searching by title or year
+  char input[10];
+  cout << "Delete by TITLE or YEAR? " << endl;
+  cin >> input;
+  cin.ignore();
+  char title[80];
+  int year;
+  
+  if (strcmp(input, "TITLE") == 0) {
+    cout << "Title: ";
+    cin.get(title, 80);
+  } else if (strcmp(input, "YEAR") == 0) {
+    cout << "Year: ";
+    cin >> year;
+  } else {
+    cout << "Invalid input." << endl;
+  }
+
+  //iterator for vector, with bool to track if we actually find something
+  bool mediaFound = false;
+  for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
+
+    //will enter the if statement if the titles match and they are searching
+    //by title, or if the years match and they are searching by year
     if ((strcmp((*it)->getTitle(), title) == 0 && strcmp(input, "TITLE") == 0) ||
 	((*it)->getYear() == year && strcmp(input, "YEAR") == 0)) {
 
@@ -256,17 +330,18 @@ void deleteMedia(vector<Media*>* &vPtr) {
 	cout << "Publisher: " << (dynamic_cast<Videogame*>(*it))->getPublisher() << endl; 
 	cout << "Rating: " << (dynamic_cast<Videogame*>(*it))->getRating() << endl;
       }
+      //media was found and printed, check if this is the one to delete
       char checkDelete;
       cout << "Delete this entry? (y/n): ";
       cin >> checkDelete;
       if (checkDelete == 'y') {
 	vPtr->erase(it);
 	cout << "Media deleted." << endl;
-	break;
+	break; //if they delete the media, the iterator is thrown off, so we need to break
       }
     }
   }
-  if (!mediaFound) {
+  if (!mediaFound) { //did not find matching media (or no media exists)
     cout << "Could not find media." << endl;
   }  
 }
