@@ -7,8 +7,9 @@ public:
 
   char* getPublisher();
   int getRating();
-  void setPublisher(char publisher[100]);
+  void setPublisher(char* publisher);
   void setRating(int rating);
 
+  Videogame();
 
 };

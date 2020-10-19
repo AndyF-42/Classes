@@ -1,6 +1,6 @@
+#include "Media.h"
 
-
-class Music : public media {
+class Music : public Media {
 public:
   char artist[80];
   char duration[80];
@@ -9,8 +9,10 @@ public:
   char* getArtist();
   char* getDuration();
   char* getPublisher();
-  void setArtist(char artist[]);
-  void setDuration(char duration[]);
-  void setPublisher(char publisher[]);
+  void setArtist(char* artist);
+  void setDuration(char* duration);
+  void setPublisher(char* publisher);
+
+  Music();
   
 };

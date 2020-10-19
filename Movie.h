@@ -1,7 +1,7 @@
 #include "Media.h"
 
 class Movie : public Media {
-
+public:
   char director[80];
   char duration[80];
   int rating;
@@ -9,8 +9,11 @@ class Movie : public Media {
   char* getDirector();
   char* getDuration();
   int getRating();
-  void setDirector(char director[]);
-  void setDuration(char duration[]);
-  void setRating(int rating);
+  void setDirector(char* newDirector);
+  void setDuration(char* newDuration);
+  void setRating(int newRating);
 
+  Movie();
+  //~Movie();
+  
 };
