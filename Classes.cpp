@@ -205,13 +205,69 @@ void searchMedia(vector<Media*>* vPtr) {
     }
   }
   if (!mediaFound) {
-    cout << "No media found." << endl;
+    cout << "Could not find media." << endl;
   }
 }
 
 void deleteMedia(vector<Media*>* &vPtr) {
+  char input[10];
+  cout << "Delete by TITLE or YEAR? " << endl;
+  cin >> input;
+  cin.ignore();
+  char title[80];
+  int year;
   
-  
+  if (strcmp(input, "TITLE") == 0) {
+    cout << "Title: ";
+    cin.get(title, 80);
+  } else if (strcmp(input, "YEAR") == 0) {
+    cout << "Year: ";
+    cin >> year;
+  } else {
+    cout << "Invalid input." << endl;
+  }
 
+  bool mediaFound = false;
+  for (vector<Media*>::iterator it = vPtr->begin(); it != vPtr->end(); ++it) {
+
+    if ((strcmp((*it)->getTitle(), title) == 0 && strcmp(input, "TITLE") == 0) ||
+	((*it)->getYear() == year && strcmp(input, "YEAR") == 0)) {
+
+      mediaFound = true;
+      cout << endl;
+      if ((*it)->getType() == MOVIE) {
+	cout << "Media Type: Movie" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Director: " << (dynamic_cast<Movie*>(*it))->getDirector() << endl; 
+	cout << "Duration: " << (dynamic_cast<Movie*>(*it))->getDuration() << endl; 
+	cout << "Rating: " << (dynamic_cast<Movie*>(*it))->getRating() << endl;
+      } else if ((*it)->getType() == MUSIC) {
+	cout << "Media Type: Music" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Artist: " << (dynamic_cast<Music*>(*it))->getArtist() << endl; 
+	cout << "Duration: " << (dynamic_cast<Music*>(*it))->getDuration() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Music*>(*it))->getPublisher() << endl;
+      } else if ((*it)->getType() == VIDEOGAME) {
+	cout << "Media Type: Videogame" << endl; 
+	cout << "Title: " << (*it)->getTitle() << endl; 
+	cout << "Year: " << (*it)->getYear() << endl; 
+	cout << "Publisher: " << (dynamic_cast<Videogame*>(*it))->getPublisher() << endl; 
+	cout << "Rating: " << (dynamic_cast<Videogame*>(*it))->getRating() << endl;
+      }
+      char checkDelete;
+      cout << "Delete this entry? (y/n): ";
+      cin >> checkDelete;
+      if (checkDelete == 'y') {
+	vPtr->erase(it);
+	cout << "Media deleted." << endl;
+	break;
+      }
+    }
+  }
+  if (!mediaFound) {
+    cout << "Could not find media." << endl;
+  }  
 }
 
